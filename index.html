@@ -21,11 +21,11 @@
 			background-color: #f5f2f2;
 		}
 		div{
-			align-items: center;
-			justify-content: center;
-			background-color: #ffff9f;
+			background-color: #ffff9f66; 
+			padding: 10px;
+			width: 50%;
 		}
-		h1
+		h1{
 			font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 			color: black;
 		}
@@ -37,6 +37,12 @@
 			padding: 5px;
 
 		}
+		#input1:active{
+			border: 1px solid #ee0505;
+		}
+		button{
+			cursor: pointer;
+		}
 
 	</style>
 </head>
@@ -46,8 +52,28 @@
 		<input id="input1" type="" name="" placeholder="what's in your minde">
 		<button>+</button>
 	</div>
+	<div id="div2">
+		<table id="table">
+					<!-- <tr>
+						<td>
+					<input type="checkbox">
+					<button id="supprimer">none</button>
+						</td>
+					</tr> -->
+		</table>
+	</div>
 </body>
 <script>
+	let image=document.createElement("IMG")
+	image.scr="emptyimg.webp"
+	latailledutableau=document.getElementById("table").rows.length
+	if(latailledutableau==0){
+		console.log("ça marche")
+	}
+	function empty(){
+		document.write("<img class=‘aligncenter’ src=‘pic2.jpg’>")
+	}
+	
 
 </script>
 </html>
