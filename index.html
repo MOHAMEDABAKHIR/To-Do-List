@@ -43,37 +43,91 @@
 		button{
 			cursor: pointer;
 		}
+		#disp{
+			display: none;
+		}
 
 	</style>
 </head>
 <body>
 	<div>
 		<h1>YOUR TO DO LIST</h1>
-		<input id="input1" type="" name="" placeholder="what's in your minde">
-		<button>+</button>
+		<input id="inputTask" type="" name="" placeholder="what's in your mind !">
+		<button onclick="addTask()">+</button>
 	</div>
-	<div id="div2">
-		<table id="table">
-					<!-- <tr>
-						<td>
-					<input type="checkbox">
-					<button id="supprimer">none</button>
-						</td>
-					</tr> -->
-		</table>
+	<div class="todo-list-container" id="todo-list-container">
+		
+		<div id="empty-todo-list">
+			Empty..
+		</div>
 	</div>
 </body>
 <script>
-	let image=document.createElement("IMG")
-	image.scr="emptyimg.webp"
-	latailledutableau=document.getElementById("table").rows.length
-	if(latailledutableau==0){
-		console.log("ça marche")
-	}
-	function empty(){
-		document.write("<img class=‘aligncenter’ src=‘pic2.jpg’>")
-	}
+	let toDoList=[]
 	
+	const todoListEmptyBlock= document.getElementById("empty-todo-list")
+
+	if(toDoList.length===0){
+		todoListEmptyBlock.style.display="block"
+	}
+	else{
+		todoListEmptyBlock.style.display="none"
+	}
+
+	function removeTask(index){
+        toDoList.splice(index,1)
+		document.getElementById('task-block-'+index).remove()
+	}
+	function editTask(index){
+
+		const taskBlock=document.getElementById('task-block-'+index)
+		const inputTaskEdited=document.createElement("input")
+		inputTaskEdited.id='input-task-edited-'+index
+		taskBlock.appendChild(inputTaskEdited)
+		const confirmTaskEdited=document.createElement("button")
+		taskBlock.appendChild(confirmTaskEdited)
+		confirmTaskEdited.textContent="confirm"
+		confirmTaskEdited.id='confirm-taske-edited'+index
+		confirmTaskEdited.addEventListener("click",function(){confirmTask(index)})
+		
+        
+
+	}
+	function confirmTask(index){
+		const TaskEditedValue=document.getElementById('input-task-edited-'+index).value
+		document.getElementById('task-content-'+index).innerText=TaskEditedValue;
+		document.getElementById('input-task-edited-'+index).remove()
+		document.getElementById('confirm-taske-edited'+index).remove()
+
+	}
+
+	function addTask(){
+		let task=document.getElementById("inputTask").value
+		console.log(task)
+		toDoList.push(task)
+		const index=toDoList.length-1;
+
+       const taskBlock=document.createElement('div')
+	   taskBlock.id='task-block-'+index;
+
+	   const taskContent=document.createElement('span')
+       taskContent.id='task-content-'+index;
+	   taskContent.innerText=task;
+
+	   taskBlock.appendChild(taskContent)
+
+	   const removeTaskButton=document.createElement('button')
+	   removeTaskButton.textContent="-"
+	   removeTaskButton.addEventListener('click',function(){removeTask(index)})
+	   taskBlock.appendChild(removeTaskButton)	
+	   const editButton=document.createElement('button')
+	   editButton.textContent="Edit"
+	   taskBlock.appendChild(editButton)
+	   editButton.addEventListener("click",function(){editTask(index)} )
+
+	   document.getElementById("todo-list-container").appendChild(taskBlock)
+	   document.getElementById("inputTask").value=''
+	}
 
 </script>
 </html>
