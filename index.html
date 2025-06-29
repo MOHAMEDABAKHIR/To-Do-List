@@ -63,20 +63,13 @@
 	</div>
 </body>
 <script>
-	let toDoList=[]
+	let toDoList=['Buy Coca','Go to cinema','Pay Taxes']
 	
-	const todoListEmptyBlock= document.getElementById("empty-todo-list")
 
-	if(toDoList.length===0){
-		todoListEmptyBlock.style.display="block"
-	}
-	else{
-		todoListEmptyBlock.style.display="none"
-	}
 
 	function removeTask(index){
         toDoList.splice(index,1)
-		document.getElementById('task-block-'+index).remove()
+		renderToDoListValues()
 	}
 	function editTask(index){
 
@@ -94,25 +87,36 @@
 
 	}
 	function confirmTask(index){
-		const TaskEditedValue=document.getElementById('input-task-edited-'+index).value
-		document.getElementById('task-content-'+index).innerText=TaskEditedValue;
-		document.getElementById('input-task-edited-'+index).remove()
-		document.getElementById('confirm-taske-edited'+index).remove()
+		const taskEditedValue=document.getElementById('input-task-edited-'+index).value
+		toDoList[index]=taskEditedValue;
+		renderToDoListValues();
 
 	}
 
 	function addTask(){
 		let task=document.getElementById("inputTask").value
-		console.log(task)
 		toDoList.push(task)
-		const index=toDoList.length-1;
+		renderToDoListValues()
+	}
+	function renderToDoListValues(){
 
-       const taskBlock=document.createElement('div')
-	   taskBlock.id='task-block-'+index;
+		document.getElementById("todo-list-container").innerHTML=''
+		
+		if(toDoList.length==0){
+
+			const emptyListMessage=document.createElement('p');
+			emptyListMessage.innerText='Empty ...'
+			document.getElementById("todo-list-container").appendChild(emptyListMessage)
+		}
+
+		for(let i=0; i<toDoList.length;i++){
+			let index=i
+		const taskBlock=document.createElement('div')
+	     taskBlock.id='task-block-'+index;
 
 	   const taskContent=document.createElement('span')
        taskContent.id='task-content-'+index;
-	   taskContent.innerText=task;
+	   taskContent.innerText=toDoList[i];
 
 	   taskBlock.appendChild(taskContent)
 
@@ -126,8 +130,9 @@
 	   editButton.addEventListener("click",function(){editTask(index)} )
 
 	   document.getElementById("todo-list-container").appendChild(taskBlock)
-	   document.getElementById("inputTask").value=''
 	}
+	}
+	renderToDoListValues()
 
 </script>
 </html>
