@@ -63,12 +63,22 @@
 	</div>
 </body>
 <script>
-	let toDoList=['Buy Coca','Go to cinema','Pay Taxes']
+	let toDoList=[
+		{text:'Buy Coca',done:false},
+		{text:'Go to cinema',done:false},
+		{text:'Pay Taxes',done:true}
+	]
 	
 
 
 	function removeTask(index){
         toDoList.splice(index,1)
+		renderToDoListValues()
+	}
+	function taskcheckbox(index){
+		
+		let checkBoxStatus=document.getElementById("task-done-"+index)
+		toDoList[index].done=checkBoxStatus.checked
 		renderToDoListValues()
 	}
 	function editTask(index){
@@ -88,14 +98,14 @@
 	}
 	function confirmTask(index){
 		const taskEditedValue=document.getElementById('input-task-edited-'+index).value
-		toDoList[index]=taskEditedValue;
+		toDoList[index].text=taskEditedValue;
 		renderToDoListValues();
 
 	}
 
 	function addTask(){
 		let task=document.getElementById("inputTask").value
-		toDoList.push(task)
+		toDoList.push({text:task,done:false}),
 		renderToDoListValues()
 	}
 	function renderToDoListValues(){
@@ -116,7 +126,7 @@
 
 	   const taskContent=document.createElement('span')
        taskContent.id='task-content-'+index;
-	   taskContent.innerText=toDoList[i];
+	   taskContent.innerText=toDoList[i].text;
 
 	   taskBlock.appendChild(taskContent)
 
@@ -128,8 +138,18 @@
 	   editButton.textContent="Edit"
 	   taskBlock.appendChild(editButton)
 	   editButton.addEventListener("click",function(){editTask(index)} )
+	   let taskDone=document.createElement("input")
+	   taskDone.id="task-done-"+index
+	   taskDone.type="checkbox"
+	   taskBlock.appendChild(taskDone)
+	   taskDone.addEventListener("change",function(){taskcheckbox(index)})
 
+	   taskDone.checked=toDoList[i].done
+	   if(toDoList[i].done){
+	     	taskContent.style.textDecoration='line-through'
+	   }
 	   document.getElementById("todo-list-container").appendChild(taskBlock)
+	
 	}
 	}
 	renderToDoListValues()
