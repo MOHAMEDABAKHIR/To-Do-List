@@ -14,13 +14,14 @@
 			box-sizing: border-box;
 		}
 		body{
-			align-items: center;
-			justify-content: center;
+			
 			width: 100%;
 			height: 100vh;
 			background-color: #f5f2f2;
 		}
 		div{
+			align-items: center;
+			justify-content: center;
 			background-color: #ffff9f66; 
 			padding: 10px;
 			width: 50%;
@@ -63,13 +64,11 @@
 	</div>
 </body>
 <script>
-	let toDoList=[
-		{text:'Buy Coca',done:false},
-		{text:'Go to cinema',done:false},
-		{text:'Pay Taxes',done:true}
-	]
+	let toDoList=JSON.parse(localStorage.getItem("toDoList"))
+	if(toDoList==null){
+		toDoList=[]
+	}
 	
-
 
 	function removeTask(index){
         toDoList.splice(index,1)
@@ -101,11 +100,12 @@
 		toDoList[index].text=taskEditedValue;
 		renderToDoListValues();
 
+
 	}
 
 	function addTask(){
 		let task=document.getElementById("inputTask").value
-		toDoList.push({text:task,done:false}),
+		toDoList.push({text:task,done:false})
 		renderToDoListValues()
 	}
 	function renderToDoListValues(){
@@ -149,6 +149,7 @@
 	     	taskContent.style.textDecoration='line-through'
 	   }
 	   document.getElementById("todo-list-container").appendChild(taskBlock)
+	   localStorage.setItem("toDoList",JSON.stringify(toDoList))
 	
 	}
 	}
