@@ -1,159 +1,737 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="logometa.png" type="image/png">
-	<title>To Do List</title>
-	<style>
-		*{
-			margin: 0;
-			padding: 0;
-		}
-		*,*::after,*::before{
-			box-sizing: border-box;
-		}
-		body{
-			
-			width: 100%;
-			height: 100vh;
-			background-color: #f5f2f2;
-		}
-		div{
-			align-items: center;
-			justify-content: center;
-			background-color: #ffff9f66; 
-			padding: 10px;
-			width: 50%;
-		}
-		h1{
-			font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-			color: black;
-		}
-		#input1{
-			border: 1px solid #ee0505;
-			color: black;
-			background:none;
-			border-radius: 20px;
-			padding: 5px;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Figma - Intégration URL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-		}
-		#input1:active{
-			border: 1px solid #ee0505;
-		}
-		button{
-			cursor: pointer;
-		}
-		#disp{
-			display: none;
-		}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
 
-	</style>
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem 1rem;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        /* Figma Integration Section */
+        .figma-integration {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .integration-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .figma-icon {
+            width: 32px;
+            height: 32px;
+            background: #F24E1E;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .url-input-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .url-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .url-input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .connect-button {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+        }
+
+        .connect-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.6);
+        }
+
+        .connect-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Connected Project Display */
+        .connected-project {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+
+        .connected-project.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            justify-content: between;
+            margin-bottom: 1rem;
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-name {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-url {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .disconnect-button {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .disconnect-button:hover {
+            background: rgba(255, 107, 107, 0.3);
+        }
+
+        /* Figma Display */
+        .figma-display {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .display-header {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+
+        .display-title {
+            color: white;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .view-button.active {
+            background: rgba(78, 205, 196, 0.3);
+            color: #4ecdc4;
+            border-color: #4ecdc4;
+        }
+
+        .view-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .figma-iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            background: white;
+        }
+
+        .figma-iframe.fullscreen {
+            height: 80vh;
+        }
+
+        .figma-iframe.mobile {
+            height: 400px;
+        }
+
+        /* Status Messages */
+        .status-message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .status-success {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+
+        .status-error {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .status-info {
+            background: rgba(78, 205, 196, 0.2);
+            color: #4ecdc4;
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .quick-actions h3 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .action-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .header h1 {
+                margin-bottom: 1rem;
+            }
+            
+            .action-buttons {
+                justify-content: center;
+            }
+            
+            .figma-iframe {
+                height: 400px;
+            }
+        }
+    </style>
 </head>
 <body>
-	<div>
-		<h1>YOUR TO DO LIST</h1>
-		<input id="inputTask" type="" name="" placeholder="what's in your mind !">
-		<button onclick="addTask()">+</button>
-	</div>
-	<div class="todo-list-container" id="todo-list-container">
-		
-		<div id="empty-todo-list">
-			Empty..
-		</div>
-	</div>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="logo">🎨 Figma Hub</div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active">
+                        <span class="nav-icon">🔗</span>
+                        Connecter
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">🖼️</span>
+                        Preview
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">📱</span>
+                        Mobile
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="nav-icon">🖥️</span>
+                        Desktop
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Dashboard Figma - Review Maquettes</h1>
+                <div style="color: rgba(255, 255, 255, 0.8);">
+                    <span id="connectionStatus">Non connecté</span>
+                </div>
+            </header>
+
+            <!-- Status Messages -->
+            <div id="statusMessage" class="status-message"></div>
+
+            <!-- Figma Integration -->
+            <section class="figma-integration" id="integrationSection">
+                <div class="integration-title">
+                    <div class="figma-icon">F</div>
+                    Intégrer Figma
+                </div>
+                <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 2rem;">
+                    Collez simplement l'URL de votre projet Figma pour l'intégrer instantanément
+                </p>
+                
+                <div class="url-input-container">
+                    <input type="text" 
+                           id="figmaUrl" 
+                           class="url-input" 
+                           placeholder="https://www.figma.com/design/votre-projet..." 
+                           value="https://www.figma.com/design/uGq6pgSeDtm18yMp4RNDpB/Alumni-Jadara?node-id=1-30&t=gcW7XRmhoJCFweBH-4">
+                    <br>
+                    <button id="connectButton" class="connect-button" onclick="connectFigma()">
+                        🔗 Créer un lien
+                    </button>
+                </div>
+            </section>
+
+            <!-- Connected Project Display -->
+            <section id="connectedProject" class="connected-project">
+                <div class="project-header">
+                    <div class="project-info">
+                        <div id="projectName" class="project-name">Alumni Jadara</div>
+                        <div id="projectUrl" class="project-url"></div>
+                    </div>
+                    <button class="disconnect-button" onclick="disconnectFigma()">
+                        Déconnecter
+                    </button>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions" id="quickActions" style="display: none;">
+                <h3>Actions rapides</h3>
+                <div class="action-buttons">
+                    <button class="action-button" onclick="openInNewTab()">
+                        🔗 Ouvrir dans Figma
+                    </button>
+                    <button class="action-button" onclick="copyEmbedCode()">
+                        📋 Copier le code embed
+                    </button>
+                    <button class="action-button" onclick="toggleFullscreen()">
+                        📺 Plein écran
+                    </button>
+                    <button class="action-button" onclick="refreshPreview()">
+                        🔄 Actualiser
+                    </button>
+                </div>
+            </section>
+
+            <!-- Figma Display -->
+            <section id="figmaDisplay" class="figma-display" style="display: none;">
+                <div class="display-header">
+                    <div class="display-title">Preview Maquette</div>
+                    <div class="view-controls">
+                        <button class="view-button active" onclick="setViewMode('desktop')">🖥️ Desktop</button>
+                        <button class="view-button" onclick="setViewMode('mobile')">📱 Mobile</button>
+                        <button class="view-button" onclick="setViewMode('fullscreen')">📺 Full</button>
+                    </div>
+                </div>
+                <iframe id="figmaIframe" class="figma-iframe" src=""></iframe>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        let currentFigmaUrl = '';
+        let currentProjectName = '';
+
+        // Fonction principale pour connecter Figma
+        function connectFigma() {
+            const urlInput = document.getElementById('figmaUrl');
+            const url = urlInput.value.trim();
+
+            if (!url) {
+                showStatus('Veuillez entrer une URL Figma', 'error');
+                return;
+            }
+
+            if (!isValidFigmaUrl(url)) {
+                showStatus('URL Figma non valide. Format attendu: https://www.figma.com/design/...', 'error');
+                return;
+            }
+
+            // Simuler le chargement
+            const button = document.getElementById('connectButton');
+            button.disabled = true;
+            button.textContent = '🔄 Connexion...';
+
+            setTimeout(() => {
+                // Extraire les informations du projet
+                const projectInfo = extractProjectInfo(url);
+                
+                if (projectInfo) {
+                    currentFigmaUrl = url;
+                    currentProjectName = projectInfo.name;
+                    
+                    // Afficher le projet connecté
+                    showConnectedProject(projectInfo);
+                    
+                    // Charger l'iframe
+                    loadFigmaPreview(url);
+                    
+                    showStatus('✅ Projet Figma connecté avec succès !', 'success');
+                    
+                    // Masquer la section d'intégration
+                    document.getElementById('integrationSection').style.display = 'none';
+                    
+                    // Afficher les actions rapides
+                    document.getElementById('quickActions').style.display = 'block';
+                    
+                    // Mettre à jour le statut
+                    document.getElementById('connectionStatus').textContent = 'Connecté - ' + projectInfo.name;
+                    
+                } else {
+                    showStatus('Impossible d\'extraire les informations du projet', 'error');
+                }
+
+                button.disabled = false;
+                button.textContent = '🔗 Créer un lien';
+                
+            }, 1500);
+        }
+
+        // Valider l'URL Figma
+        function isValidFigmaUrl(url) {
+            const figmaRegex = /https:\/\/www\.figma\.com\/(design|file)\/[a-zA-Z0-9]+/;
+            return figmaRegex.test(url);
+        }
+
+        // Extraire les informations du projet
+        function extractProjectInfo(url) {
+            try {
+                const match = url.match(/https:\/\/www\.figma\.com\/(design|file)\/([a-zA-Z0-9]+)\/([^?]*)/);
+                if (match) {
+                    const fileId = match[2];
+                    let name = match[3] || 'Projet Figma';
+                    
+                    // Nettoyer le nom
+                    name = decodeURIComponent(name.replace(/-/g, ' '));
+                    
+                    return {
+                        fileId: fileId,
+                        name: name,
+                        url: url
+                    };
+                }
+                return null;
+            } catch (error) {
+                console.error('Erreur extraction projet:', error);
+                return null;
+            }
+        }
+
+        // Afficher le projet connecté
+        function showConnectedProject(projectInfo) {
+            document.getElementById('projectName').textContent = projectInfo.name;
+            document.getElementById('projectUrl').textContent = projectInfo.url;
+            document.getElementById('connectedProject').classList.add('show');
+        }
+
+        // Charger le preview Figma
+        function loadFigmaPreview(url) {
+            const iframe = document.getElementById('figmaIframe');
+            const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(url)}`;
+            
+            iframe.src = embedUrl;
+            document.getElementById('figmaDisplay').style.display = 'block';
+        }
+
+        // Déconnecter Figma
+        function disconnectFigma() {
+            currentFigmaUrl = '';
+            currentProjectName = '';
+            
+            // Masquer les sections connectées
+            document.getElementById('connectedProject').classList.remove('show');
+            document.getElementById('figmaDisplay').style.display = 'none';
+            document.getElementById('quickActions').style.display = 'none';
+            
+            // Afficher la section d'intégration
+            document.getElementById('integrationSection').style.display = 'block';
+            
+            // Réinitialiser l'iframe
+            document.getElementById('figmaIframe').src = '';
+            
+            // Mettre à jour le statut
+            document.getElementById('connectionStatus').textContent = 'Non connecté';
+            
+            showStatus('Projet déconnecté', 'info');
+        }
+
+        // Changer le mode d'affichage
+        function setViewMode(mode) {
+            const iframe = document.getElementById('figmaIframe');
+            const buttons = document.querySelectorAll('.view-button');
+            
+            // Retirer la classe active
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            // Ajouter la classe au bouton actif
+            event.target.classList.add('active');
+            
+            // Appliquer le mode
+            iframe.className = 'figma-iframe';
+            if (mode !== 'desktop') {
+                iframe.classList.add(mode);
+            }
+        }
+
+        // Actions rapides
+        function openInNewTab() {
+            if (currentFigmaUrl) {
+                window.open(currentFigmaUrl, '_blank');
+            }
+        }
+
+        function copyEmbedCode() {
+            if (currentFigmaUrl) {
+                const embedCode = `<iframe src="https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(currentFigmaUrl)}" width="100%" height="600"></iframe>`;
+                
+                navigator.clipboard.writeText(embedCode).then(() => {
+                    showStatus('Code embed copié dans le presse-papiers !', 'success');
+                }).catch(() => {
+                    showStatus('Erreur lors de la copie', 'error');
+                });
+            }
+        }
+
+        function toggleFullscreen() {
+            const iframe = document.getElementById('figmaIframe');
+            if (iframe.classList.contains('fullscreen')) {
+                iframe.classList.remove('fullscreen');
+            } else {
+                iframe.classList.add('fullscreen');
+            }
+        }
+
+        function refreshPreview() {
+            const iframe = document.getElementById('figmaIframe');
+            iframe.src = iframe.src;
+            showStatus('Preview actualisé', 'info');
+        }
+
+        // Afficher les messages de statut
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('statusMessage');
+            statusDiv.textContent = message;
+            statusDiv.className = `status-message status-${type}`;
+            statusDiv.style.display = 'block';
+
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Auto-connecter avec l'URL par défaut
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                connectFigma();
+            }, 1000);
+        });
+
+        // Gérer l'entrée sur input
+        document.getElementById('figmaUrl').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                connectFigma();
+            }
+        });
+    </script>
+    <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/design/uGq6pgSeDtm18yMp4RNDpB/Alumni-Jadara?node-id=1-30&t=gcW7XRmhoJCFweBH-4" allowfullscreen></iframe>
 </body>
-<script>
-	let toDoList=JSON.parse(localStorage.getItem("toDoList"))
-	if(toDoList==null){
-		toDoList=[]
-	}
-	
-
-	function removeTask(index){
-        toDoList.splice(index,1)
-		renderToDoListValues()
-	}
-	function taskcheckbox(index){
-		
-		let checkBoxStatus=document.getElementById("task-done-"+index)
-		toDoList[index].done=checkBoxStatus.checked
-		renderToDoListValues()
-	}
-	function editTask(index){
-
-		const taskBlock=document.getElementById('task-block-'+index)
-		const inputTaskEdited=document.createElement("input")
-		inputTaskEdited.id='input-task-edited-'+index
-		taskBlock.appendChild(inputTaskEdited)
-		const confirmTaskEdited=document.createElement("button")
-		taskBlock.appendChild(confirmTaskEdited)
-		confirmTaskEdited.textContent="confirm"
-		confirmTaskEdited.id='confirm-taske-edited'+index
-		confirmTaskEdited.addEventListener("click",function(){confirmTask(index)})
-		
-        
-
-	}
-	function confirmTask(index){
-		const taskEditedValue=document.getElementById('input-task-edited-'+index).value
-		toDoList[index].text=taskEditedValue;
-		renderToDoListValues();
-
-
-	}
-
-	function addTask(){
-		let task=document.getElementById("inputTask").value
-		toDoList.push({text:task,done:false})
-		renderToDoListValues()
-	}
-	function renderToDoListValues(){
-
-		document.getElementById("todo-list-container").innerHTML=''
-		
-		if(toDoList.length==0){
-
-			const emptyListMessage=document.createElement('p');
-			emptyListMessage.innerText='Empty ...'
-			document.getElementById("todo-list-container").appendChild(emptyListMessage)
-		}
-
-		for(let i=0; i<toDoList.length;i++){
-			let index=i
-		const taskBlock=document.createElement('div')
-	     taskBlock.id='task-block-'+index;
-
-	   const taskContent=document.createElement('span')
-       taskContent.id='task-content-'+index;
-	   taskContent.innerText=toDoList[i].text;
-
-	   taskBlock.appendChild(taskContent)
-
-	   const removeTaskButton=document.createElement('button')
-	   removeTaskButton.textContent="-"
-	   removeTaskButton.addEventListener('click',function(){removeTask(index)})
-	   taskBlock.appendChild(removeTaskButton)	
-	   const editButton=document.createElement('button')
-	   editButton.textContent="Edit"
-	   taskBlock.appendChild(editButton)
-	   editButton.addEventListener("click",function(){editTask(index)} )
-	   let taskDone=document.createElement("input")
-	   taskDone.id="task-done-"+index
-	   taskDone.type="checkbox"
-	   taskBlock.appendChild(taskDone)
-	   taskDone.addEventListener("change",function(){taskcheckbox(index)})
-
-	   taskDone.checked=toDoList[i].done
-	   if(toDoList[i].done){
-	     	taskContent.style.textDecoration='line-through'
-	   }
-	   document.getElementById("todo-list-container").appendChild(taskBlock)
-	   localStorage.setItem("toDoList",JSON.stringify(toDoList))
-	
-	}
-	}
-	renderToDoListValues()
-
-</script>
 </html>
